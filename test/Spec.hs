@@ -17,5 +17,5 @@ decks =
           (Card Diamond <$> [A, A, J, Q]) ++ (Card Spade <$> [K, N 2, N 3]),
           Card Diamond <$> [A, A, J, J, J, J, Q],
           Card Diamond <$> A : [N 2 .. N 7],
-          Card Diamond <$> [A, K .. N 10]
+          (Card Diamond <$> [A, K]) ++ (Card Heart <$> [Q, J .. N 9])
         ]
