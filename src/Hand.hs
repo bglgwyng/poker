@@ -56,13 +56,6 @@ instance Versus Hand where
   _ `vs` OnePair {} = Lose
   NoPairs `vs` NoPairs = Draw
 
--- foo :: Int -> String
--- foo = undefined
-
--- bar :: Int -> Bool
--- bar = undefined
-
--- baz = foo <* bar
 strongestHand :: [Card] -> Hand
 strongestHand xs =
   asum
@@ -113,11 +106,9 @@ fullHouse xs
 fullHouse _ = Nothing
 
 fourCard :: [Card] -> Maybe Rank
-fourCard xs = foo xs
-  where
-    foo =
-      ((== 4) . length &&& (homo . (rank <$>)))
-        >>> uncurry when'
+fourCard =
+  ((== 4) . length &&& (homo . (rank <$>)))
+    >>> uncurry when'
 
 flush :: [Card] -> Maybe [Rank]
 flush xs = do
