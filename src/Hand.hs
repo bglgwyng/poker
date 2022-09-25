@@ -10,6 +10,7 @@ import Control.Arrow
 import Control.Monad
 import Data.Foldable
 import Data.Function
+import Data.Functor
 import Data.Maybe
 import Utils
 import Versus
@@ -55,22 +56,28 @@ instance Versus Hand where
   _ `vs` OnePair {} = Lose
   NoPairs `vs` NoPairs = Draw
 
+-- foo :: Int -> String
+-- foo = undefined
+
+-- bar :: Int -> Bool
+-- bar = undefined
+
+-- baz = foo <* bar
 strongestHand :: [Card] -> Hand
 strongestHand xs =
   asum
-    [ StraightFlush <$> (staright' <* flush'),
-      FourCard <$> fourCard xs,
-      FullHouse <$> fullHouse xs,
-      Flush <$> flush xs,
-      Straight <$> straight xs,
-      Triple <$> tripple xs,
-      TwoPair <$> twoPair xs,
-      OnePair <$> onePair xs
-    ]
+    ( [ (StraightFlush <$>) . uncurry (<*) . (straight &&& flush),
+        (FourCard <$>) . fourCard,
+        (FullHouse <$>) . fullHouse,
+        (Flush <$>) . flush,
+        (Straight <$>) . straight,
+        (Triple <$>) . tripple,
+        (TwoPair <$>) . twoPair,
+        (OnePair <$>) . onePair
+      ]
+        <&> ($ xs)
+    )
     & fromMaybe NoPairs
-  where
-    staright' = straight xs
-    flush' = flush xs
 
 onePair :: [Card] -> Maybe Rank
 onePair [Card {rank = r1}, Card {rank = r2}]
