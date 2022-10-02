@@ -29,5 +29,5 @@ strongestHandWithKickers :: Deck -> ([Card], Hand)
 strongestHandWithKickers =
   strongestBy (on vs snd)
     . ((sortOn (Down . rank) *** strongestHand . sortOn (Down . rank)) <$>)
-    . permutation
+    . partitions
     . deck

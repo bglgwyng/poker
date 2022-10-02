@@ -1,12 +1,12 @@
-module Utils (permutation, ensure, when', homo) where
+module Utils (partitions, ensure, when', homo) where
 
 import Control.Applicative
 import Control.Arrow
 import Control.Monad
 
-permutation :: [a] -> [([a], [a])]
-permutation [] = [([], [])]
-permutation (x : xs) = (first (x :) <$> permutation xs) ++ (second (x :) <$> permutation xs)
+partitions :: [a] -> [([a], [a])]
+partitions [] = [([], [])]
+partitions (x : xs) = (first (x :) <$> partitions xs) ++ (second (x :) <$> partitions xs)
 
 ensure :: Alternative f => (a -> Bool) -> a -> f a
 ensure p x = x <$ guard (p x)
